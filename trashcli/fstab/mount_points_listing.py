@@ -43,15 +43,9 @@ def os_mount_points():
         'fuse.gocryptfs',
     ]
 
-    # Append fstypes of physical devices to list
-    fstypes += set([p.fstype for p in psutil.disk_partitions()])
-
-    partitions = Partitions(fstypes)
-
-    for p in psutil.disk_partitions(all=True):
-        if os.path.isdir(p.mountpoint) and \
-                partitions.should_used_by_trashcli(p):
-            yield p.mountpoint
+    for p in ["/storage/emulated/0", "/data/data/com.termux"]:
+        if os.path.isdir(p):
+            yield p
 
 
 class Partitions:
